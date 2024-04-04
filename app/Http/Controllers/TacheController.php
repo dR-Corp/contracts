@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tache;
-use App\Http\Requests\StoreTacheRequest;
-use App\Http\Requests\UpdateTacheRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TacheController extends Controller
 {
@@ -13,54 +13,64 @@ class TacheController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $taches = Tache::all();
+        return response()->json($taches);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTacheRequest $request)
+    public function store(Request $request)
     {
-        //
-    }
+        $validator = Validator::make($request->all(), [
+            'nom' => 'required|string|max:255',
+            'description' => 'required|string',
+            'etat' => 'required|string|max:255',
+            'dateDebut' => 'required|date',
+            'dateFin' => 'required|date',
+            'contrat_id' => 'required|exists:contrats,id',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Tache $tache)
-    {
-        //
-    }
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Tache $tache)
-    {
-        //
+        $tache = Tache::create($request->all());
+
+        return response()->json($tache, 201);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTacheRequest $request, Tache $tache)
+    public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'nom' => 'required|string|max:255',
+            'description' => 'required|string',
+            'etat' => 'required|string|max:255',
+            'dateDebut' => 'required|date',
+            'dateFin' => 'required|date',
+            'contrat_id' => 'required|exists:contrats,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
+        }
+
+        $tache = Tache::findOrFail($id);
+        $tache->update($request->all());
+
+        return response()->json($tache, 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Tache $tache)
+    public function destroy($id)
     {
-        //
+        $tache = Tache::findOrFail($id);
+        $tache->delete();
+        return response()->json(null, 204);
     }
 }
