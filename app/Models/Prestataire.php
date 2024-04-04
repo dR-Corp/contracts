@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Prestataire extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['entreprise', 'typeEntreprise', 'ifu', 'user_id'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function contrats()
+    {
+        return $this->hasMany(Contrat::class);
+    }
+    
 }
