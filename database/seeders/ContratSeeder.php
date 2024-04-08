@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Contrat;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,5 +14,6 @@ class ContratSeeder extends Seeder
     public function run(): void
     {
         //
+        Contrat::factory(10)->create();
     }
 }

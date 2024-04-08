@@ -1,4 +1,4 @@
-```
+
 Index (GET): Retrieves all users
 
 URL: GET /api/users
@@ -14,4 +14,3 @@ URL: PUT/PATCH /api/users/{id}
 Destroy (DELETE): Deletes an existing user by ID
 
 URL: DELETE /api/users/{id}
-```

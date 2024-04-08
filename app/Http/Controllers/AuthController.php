@@ -35,31 +35,9 @@ class AuthController extends Controller
     // Method for user logout
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        // $request->user()->currentAccessToken()->delete();
+        auth()->user()->tokens()->delete();
         return response()->json(['message' => 'Successfully logged out'], 200);
-    }
-
-    public function register(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 422);
-        }
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-        ]);
-
-        $token = $user->createToken('MyApp')->plainTextToken;
-        
-        return response()->json(['token' => $token], 201);
     }
 
     /**
@@ -97,6 +75,11 @@ class AuthController extends Controller
             'password' => bcrypt($request->password),
             'role_id' => $request->role_id,
         ]);
+
+        
+        // $token = $user->createToken('MyApp')->plainTextToken;
+        
+        // return response()->json(['token' => $token], 201);
 
         return response()->json($user, 201);
     }
@@ -142,5 +125,5 @@ class AuthController extends Controller
 
         return response()->json(null, 204);
     }
-    
+
 }

@@ -26,6 +26,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::resource('roles', RoleController::class)->except(['create', 'edit']);
 Route::resource('users', AuthController::class)->except(['create', 'edit']);
+Route::post('login', [AuthController::class, "login"]);
+Route::get('logout', [AuthController::class, "logout"]);
 Route::resource('prestataires', PrestataireController::class)->except(['create', 'edit']);
 Route::resource('contrats', ContratController::class)->except(['create', 'edit']);
 Route::resource('taches', TacheController::class)->except(['create', 'edit']);

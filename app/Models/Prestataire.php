@@ -9,7 +9,7 @@ class Prestataire extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['entreprise', 'typeEntreprise', 'ifu', 'user_id'];
+    protected $fillable = ['matricule', 'entreprise', 'typeEntreprise', 'ifu', 'user_id'];
 
     public function user()
     {

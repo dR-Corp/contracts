@@ -129,5 +129,27 @@
                 </div>
             </div>
         </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var button = document.getElementById('myButton');
+                var customValue = button.getAttribute('data-custom');
+
+                // Send AJAX request to Laravel route with the custom value
+                fetch('/your-route', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ customValue: customValue })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data); // Handle the response from the server
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        </script>
+
     </body>
 </html>
